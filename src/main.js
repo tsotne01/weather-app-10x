@@ -166,7 +166,7 @@ window.addEventListener('DOMContentLoaded', () => {
     dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
   setTheme(dark);
-  searchAndUpdate('Tbilisi');
+  searchAndUpdate('Batumi');
 });
 
 document.getElementById('weather-form').addEventListener('submit', async (e) => {
