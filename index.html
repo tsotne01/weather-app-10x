@@ -11,55 +11,34 @@
         <h1>Simple Weather App</h1>
       </header>
       <main>
-        <div id="loading-spinner" class="spinner" style="display:none" aria-label="Loading" role="status"></div>
-        <form id="weather-form" class="form-group">
-          <label for="city-input">City Name</label>
-          <div class="input-row">
-            <input type="text" id="city-input" placeholder="Enter city name" required />
-            <button type="submit">Get Weather</button>
-          </div>
-        </form>
-        <section id="current-weather">
-          <div class="weather-card">
-            <div class="weather-icon-placeholder">☀️</div>
-            <div class="weather-info">
-              <div class="temp">22°C</div>
-              <div class="desc">Clear sky</div>
-              <div class="city">Tbilisi</div>
+        <div class="weather-sections" style="position:relative;">
+          <form id="weather-form" class="form-group">
+            <label for="city-input">City Name</label>
+            <div class="input-row">
+              <input type="text" id="city-input" placeholder="Enter city name" required />
+              <button type="submit">Get Weather</button>
             </div>
-          </div>
-        </section>
-        <div class="divider"></div>
-        <section id="forecast">
-          <h2>5-Day Forecast</h2>
-          <div class="forecast-cards">
-            <div class="forecast-card">
-              <div class="forecast-date">Mon</div>
-              <div class="forecast-icon">🌤️</div>
-              <div class="forecast-temp">20°C / 12°C</div>
+          </form>
+          <section id="current-weather">
+            <div class="weather-card" style="position:relative;">
+              <div id="spinner-overlay-weather" class="spinner-overlay" style="display:none"><div class="spinner" aria-label="Loading" role="status"></div></div>
+              <div class="weather-icon-placeholder">☀️</div>
+              <div class="weather-info">
+                <div class="temp">22°C</div>
+                <div class="desc">Clear sky</div>
+                <div class="city">Tbilisi</div>
+              </div>
             </div>
-            <div class="forecast-card">
-              <div class="forecast-date">Tue</div>
-              <div class="forecast-icon">🌦️</div>
-              <div class="forecast-temp">18°C / 10°C</div>
+          </section>
+          <div class="divider"></div>
+          <section id="forecast">
+            <h2>5-Day Forecast</h2>
+            <div class="forecast-cards" style="position:relative;">
+              <div id="spinner-overlay-forecast" class="spinner-overlay" style="display:none"><div class="spinner" aria-label="Loading" role="status"></div></div>
+              <!-- forecast cards will be rendered dynamically by JS -->
             </div>
-            <div class="forecast-card">
-              <div class="forecast-date">Wed</div>
-              <div class="forecast-icon">⛅</div>
-              <div class="forecast-temp">21°C / 13°C</div>
-            </div>
-            <div class="forecast-card">
-              <div class="forecast-date">Thu</div>
-              <div class="forecast-icon">🌧️</div>
-              <div class="forecast-temp">17°C / 9°C</div>
-            </div>
-            <div class="forecast-card">
-              <div class="forecast-date">Fri</div>
-              <div class="forecast-icon">☀️</div>
-              <div class="forecast-temp">23°C / 14°C</div>
-            </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </main>
     </div>
     <script type="module" src="/src/main.js"></script>

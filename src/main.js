@@ -8,9 +8,34 @@ const WEATHER_DESC = {
 };
 
 function showSpinner(show) {
-  const spinner = document.getElementById('loading-spinner');
-  spinner.style.display = show ? 'flex' : 'none';
+  const overlay = document.getElementById('spinner-overlay');
+  const weatherSection = document.getElementById('current-weather');
+  const forecastSection = document.getElementById('forecast');
+  if (show) {
+    // Get the top of the weather section relative to the parent
+    const parentRect = overlay.parentElement.getBoundingClientRect();
+    const weatherRect = weatherSection.getBoundingClientRect();
+    const forecastRect = forecastSection.getBoundingClientRect();
+    const top = weatherRect.top - parentRect.top;
+    const height = (forecastRect.bottom - parentRect.top) - top;
+    overlay.style.top = top + 'px';
+    overlay.style.height = height + 'px';
+    overlay.style.display = 'flex';
+  } else {
+    overlay.style.display = 'none';
+  }
   document.getElementById('weather-form').querySelectorAll('input,button').forEach(el => el.disabled = show);
+}
+
+function showWeatherSpinner(show) {
+  const overlay = document.getElementById('spinner-overlay-weather');
+  overlay.style.display = show ? 'flex' : 'none';
+}
+function showForecastSpinner(show) {
+  const overlay = document.getElementById('spinner-overlay-forecast');
+  overlay.style.display = show ? 'flex' : 'none';
+  // Ensure overlay is always on top, even if forecast-cards is empty
+  overlay.style.zIndex = 100;
 }
 
 async function getCoordsByCity(city) {
@@ -50,7 +75,8 @@ function updateForecast(forecast) {
   const minTemps = forecast.temperature_2m_min.slice(0, 5);
   const codes = forecast.weathercode.slice(0, 5);
   const forecastCards = document.querySelector('.forecast-cards');
-  forecastCards.innerHTML = '';
+  // Only remove forecast-card elements, not the spinner overlay
+  [...forecastCards.querySelectorAll('.forecast-card')].forEach(card => card.remove());
   days.forEach((date, i) => {
     const d = new Date(date);
     const day = d.toLocaleDateString(undefined, { weekday: 'short' });
@@ -86,16 +112,24 @@ document.getElementById('weather-form').addEventListener('submit', async (e) => 
 });
 
 async function searchAndUpdate(city) {
-  try {
-    showSpinner(true);
-    const coords = await getCoordsByCity(city);
-    const weather = await fetchWeather(coords.lat, coords.lon);
-    updateWeatherCard(weather, city);
-    const forecast = await fetchForecast(coords.lat, coords.lon);
-    updateForecast(forecast);
-  } catch (err) {
-    showWeatherError('City not found');
-  } finally {
-    showSpinner(false);
-  }
+  document.getElementById('weather-form').querySelectorAll('input,button').forEach(el => el.disabled = true);
+  setTimeout(async () => {
+    try {
+      showWeatherSpinner(true);
+      const coords = await getCoordsByCity(city);
+      const weather = await fetchWeather(coords.lat, coords.lon);
+      updateWeatherCard(weather, city);
+      showWeatherSpinner(false);
+      showForecastSpinner(true); // Show forecast spinner before fetch
+      const forecast = await fetchForecast(coords.lat, coords.lon);
+      updateForecast(forecast);
+      showForecastSpinner(false);
+    } catch (err) {
+      showWeatherSpinner(false);
+      showForecastSpinner(false);
+      showWeatherError('City not found');
+    } finally {
+      document.getElementById('weather-form').querySelectorAll('input,button').forEach(el => el.disabled = false);
+    }
+  }, 0);
 }

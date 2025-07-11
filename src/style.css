@@ -322,11 +322,21 @@ button:focus {
   to { opacity: 1; transform: none; }
 }
 
-.spinner {
+.weather-sections {
+  position: relative;
+}
+.spinner-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 1.5em auto;
+  z-index: 100;
+  pointer-events: none;
+}
+.spinner {
   width: 48px;
   height: 48px;
   border: 5px solid #e3e8ef;
@@ -334,7 +344,6 @@ button:focus {
   border-radius: 50%;
   animation: spin 1s linear infinite;
   background: transparent;
-  z-index: 10;
 }
 @keyframes spin {
   0% { transform: rotate(0deg); }
