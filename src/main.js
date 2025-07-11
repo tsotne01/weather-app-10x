@@ -1,7 +1,5 @@
 import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+
 
 const form = document.getElementById('weather-form');
 const cityInput = document.getElementById('city-input');
