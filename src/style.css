@@ -193,7 +193,18 @@ button:focus {
   font-size: 2.4em;
   font-weight: bold;
   margin-bottom: 0.1em;
-  color: var(--text);
+  color: var(--primary-dark);
+  background: #e3f0ff;
+  border-radius: 0.6em;
+  padding: 0.15em 0.7em;
+  display: inline-block;
+  box-shadow: 0 1px 4px rgba(79,140,255,0.07);
+  transition: background 0.3s, color 0.3s;
+}
+body.dark .weather-info .temp {
+  color: #fff;
+  background: #2c3442;
+  box-shadow: 0 1px 8px rgba(79,140,255,0.18);
 }
 .weather-info .desc {
   font-size: 1.3em;
@@ -311,7 +322,24 @@ button:focus {
   border-radius: 999px;
   padding: 0.15em 0.4em;
   box-shadow: 0 1px 4px rgba(79,140,255,0.06);
+  transition: background 0.3s;
 }
+body.dark .temp-toggle-header {
+  background: #232a36;
+  box-shadow: 0 1px 8px rgba(79,140,255,0.18);
+}
+.toggle-label {
+  font-size: 0.93em;
+  color: var(--text-muted);
+  margin-right: 0.4em;
+  align-self: center;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+body.dark .toggle-label {
+  color: #b3c2d1;
+}
+
 .toggle-btn {
   background: transparent;
   border: none;
@@ -343,12 +371,66 @@ button:focus {
   transform: scale(1.04);
 }
 
-.toggle-label {
-  font-size: 0.93em;
-  color: var(--text-muted);
-  margin-right: 0.4em;
-  align-self: center;
-  font-weight: 500;
+.theme-toggle-header {
+  position: absolute;
+  top: 2.2em;
+  left: 2em;
+  z-index: 10;
+}
+.theme-toggle-btn {
+  background: #f4f7fa;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  font-size: 1.3em;
+  color: var(--primary-dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(79,140,255,0.10);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.18s, border 0.2s;
+  outline: none;
+  padding: 0;
+  line-height: 1;
+}
+.theme-toggle-btn:hover, .theme-toggle-btn:focus {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  transform: scale(1.08);
+  outline: none;
+  border-color: var(--primary-dark);
+}
+body.dark .theme-toggle-btn {
+  background: #232a36;
+  color: #f7f9fb;
+  border: 2px solid #2c3442;
+  box-shadow: 0 2px 8px rgba(79,140,255,0.18);
+}
+body.dark .theme-toggle-btn:hover, body.dark .theme-toggle-btn:focus {
+  background: #2c3442;
+  color: #fff;
+  border-color: #7aaaff;
+}
+body.dark {
+  --bg: #181c24;
+  --bg-card: #232a36;
+  --bg-card-alt: #232a36;
+  --border: #2c3442;
+  --border-strong: #3a4252;
+  --text: #f7f9fb;
+  --text-muted: #b3c2d1;
+  --primary: #4f8cff;
+  --primary-dark: #7aaaff;
+  --primary-light: #2c3442;
+}
+body.dark {
+  background: linear-gradient(120deg, #232a36 0%, #181c24 100%);
 }
 
 @media (max-width: 600px) {

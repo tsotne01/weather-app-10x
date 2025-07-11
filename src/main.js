@@ -21,6 +21,18 @@ function setTempUnit(unit) {
 document.getElementById('toggle-c').addEventListener('click', () => setTempUnit('C'));
 document.getElementById('toggle-f').addEventListener('click', () => setTempUnit('F'));
 
+function setTheme(dark) {
+  document.body.classList.toggle('dark', dark);
+  document.getElementById('theme-toggle').textContent = dark ? '☀️' : '🌙';
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+}
+
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  const isDark = document.body.classList.toggle('dark');
+  document.getElementById('theme-toggle').textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+
 function toF(c) { return c * 9/5 + 32; }
 
 function showSpinner(show) {
@@ -129,6 +141,14 @@ function showWeatherError(msg) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('theme');
+  let dark = false;
+  if (saved === 'dark') dark = true;
+  else if (saved === 'light') dark = false;
+  else {
+    dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  setTheme(dark);
   searchAndUpdate('Tbilisi');
 });
 
