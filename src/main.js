@@ -13,13 +13,30 @@ function setTempUnit(unit) {
   tempUnit = unit;
   document.getElementById('toggle-c').classList.toggle('active', unit === 'C');
   document.getElementById('toggle-f').classList.toggle('active', unit === 'F');
-  // Re-render with last fetched data if available
+  document.getElementById('toggle-c').setAttribute('aria-pressed', unit === 'C');
+  document.getElementById('toggle-f').setAttribute('aria-pressed', unit === 'F');
   if (window._lastWeather && window._lastCity) updateWeatherCard(window._lastWeather, window._lastCity);
   if (window._lastForecast) updateForecast(window._lastForecast);
 }
 
-document.getElementById('toggle-c').addEventListener('click', () => setTempUnit('C'));
-document.getElementById('toggle-f').addEventListener('click', () => setTempUnit('F'));
+document.getElementById('toggle-c').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    setTempUnit('C');
+    e.preventDefault();
+  }
+});
+document.getElementById('toggle-f').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    setTempUnit('F');
+    e.preventDefault();
+  }
+});
+document.getElementById('theme-toggle').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    document.getElementById('theme-toggle').click();
+    e.preventDefault();
+  }
+});
 
 function setTheme(dark) {
   document.body.classList.toggle('dark', dark);

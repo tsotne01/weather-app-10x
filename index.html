@@ -9,26 +9,26 @@
     <div id="app">
       <header>
         <div class="theme-toggle-header">
-          <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light mode" type="button">🌙</button>
+          <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light mode" type="button" tabindex="0">🌙</button>
         </div>
         <h1>Simple Weather App</h1>
         <div class="temp-toggle-header">
           <span class="toggle-label">Temperature:</span>
-          <button id="toggle-c" class="toggle-btn active" type="button">°C</button>
-          <button id="toggle-f" class="toggle-btn" type="button">°F</button>
+          <button id="toggle-c" class="toggle-btn active" type="button" aria-pressed="true" aria-label="Show Celsius">°C</button>
+          <button id="toggle-f" class="toggle-btn" type="button" aria-pressed="false" aria-label="Show Fahrenheit">°F</button>
         </div>
       </header>
       <main>
         <div class="weather-sections" style="position:relative;">
-          <form id="weather-form" class="form-group">
+          <form id="weather-form" class="form-group" role="search" aria-label="Search city weather">
             <label for="city-input">City Name</label>
             <div class="input-row">
               <input type="text" id="city-input" placeholder="Enter city name" required />
               <button type="submit">Get Weather</button>
             </div>
           </form>
-          <section id="current-weather">
-            <div class="weather-card" style="position:relative;">
+          <section id="current-weather" aria-label="Current weather" tabindex="0">
+            <div class="weather-card" style="position:relative;" role="region" aria-label="Current weather details">
               <div id="spinner-overlay-weather" class="spinner-overlay" style="display:none"><div class="spinner" aria-label="Loading" role="status"></div></div>
               <div class="weather-icon-placeholder">☀️</div>
               <div class="weather-info">
@@ -39,9 +39,9 @@
             </div>
           </section>
           <div class="divider"></div>
-          <section id="forecast">
+          <section id="forecast" aria-label="5-day forecast" tabindex="0">
             <h2>5-Day Forecast</h2>
-            <div class="forecast-cards" style="position:relative;">
+            <div class="forecast-cards" style="position:relative;" role="list" aria-label="5-day forecast cards">
               <div id="spinner-overlay-forecast" class="spinner-overlay" style="display:none"><div class="spinner" aria-label="Loading" role="status"></div></div>
               <!-- forecast cards will be rendered dynamically by JS -->
             </div>
