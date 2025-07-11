@@ -7,6 +7,22 @@ const WEATHER_DESC = {
   0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast', 45: 'Fog', 48: 'Depositing rime fog', 51: 'Light drizzle', 53: 'Moderate drizzle', 55: 'Dense drizzle', 56: 'Light freezing drizzle', 57: 'Dense freezing drizzle', 61: 'Slight rain', 63: 'Moderate rain', 65: 'Heavy rain', 66: 'Light freezing rain', 67: 'Heavy freezing rain', 71: 'Slight snow', 73: 'Moderate snow', 75: 'Heavy snow', 77: 'Snow grains', 80: 'Slight rain showers', 81: 'Moderate rain showers', 82: 'Violent rain showers', 85: 'Slight snow showers', 86: 'Heavy snow showers', 95: 'Thunderstorm', 96: 'Thunderstorm with slight hail', 99: 'Thunderstorm with heavy hail',
 };
 
+let tempUnit = 'C';
+
+function setTempUnit(unit) {
+  tempUnit = unit;
+  document.getElementById('toggle-c').classList.toggle('active', unit === 'C');
+  document.getElementById('toggle-f').classList.toggle('active', unit === 'F');
+  // Re-render with last fetched data if available
+  if (window._lastWeather && window._lastCity) updateWeatherCard(window._lastWeather, window._lastCity);
+  if (window._lastForecast) updateForecast(window._lastForecast);
+}
+
+document.getElementById('toggle-c').addEventListener('click', () => setTempUnit('C'));
+document.getElementById('toggle-f').addEventListener('click', () => setTempUnit('F'));
+
+function toF(c) { return c * 9/5 + 32; }
+
 function showSpinner(show) {
   const overlay = document.getElementById('spinner-overlay');
   const weatherSection = document.getElementById('current-weather');
@@ -61,32 +77,44 @@ async function fetchForecast(lat, lon) {
 }
 
 function updateWeatherCard(weather, city) {
+  window._lastWeather = weather;
+  window._lastCity = city;
   const icon = WEATHER_EMOJI[weather.weathercode] || '❓';
   const desc = WEATHER_DESC[weather.weathercode] || 'Unknown';
+  let temp = weather.temperature;
+  let unit = '°C';
+  if (tempUnit === 'F') {
+    temp = toF(temp);
+    unit = '°F';
+  }
   document.querySelector('.weather-icon-placeholder').textContent = icon;
-  document.querySelector('.weather-info .temp').textContent = `${Math.round(weather.temperature)}°C`;
+  document.querySelector('.weather-info .temp').textContent = `${Math.round(temp)}${unit}`;
   document.querySelector('.weather-info .desc').textContent = desc;
   document.querySelector('.weather-info .city').textContent = city;
 }
 
 function updateForecast(forecast) {
+  window._lastForecast = forecast;
   const days = forecast.time.slice(0, 5);
   const maxTemps = forecast.temperature_2m_max.slice(0, 5);
   const minTemps = forecast.temperature_2m_min.slice(0, 5);
   const codes = forecast.weathercode.slice(0, 5);
   const forecastCards = document.querySelector('.forecast-cards');
-  // Only remove forecast-card elements, not the spinner overlay
   [...forecastCards.querySelectorAll('.forecast-card')].forEach(card => card.remove());
   days.forEach((date, i) => {
     const d = new Date(date);
     const day = d.toLocaleDateString(undefined, { weekday: 'short' });
     const icon = WEATHER_EMOJI[codes[i]] || '❓';
+    let max = maxTemps[i], min = minTemps[i], unit = '°C';
+    if (tempUnit === 'F') {
+      max = toF(max); min = toF(min); unit = '°F';
+    }
     const card = document.createElement('div');
     card.className = 'forecast-card';
     card.innerHTML = `
       <div class="forecast-date">${day}</div>
       <div class="forecast-icon">${icon}</div>
-      <div class="forecast-temp">${Math.round(maxTemps[i])}°C / ${Math.round(minTemps[i])}°C</div>
+      <div class="forecast-temp">${Math.round(max)}${unit} / ${Math.round(min)}${unit}</div>
     `;
     forecastCards.appendChild(card);
   });

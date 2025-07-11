@@ -67,6 +67,7 @@ header {
   padding: 2.5em 0 1.5em 0;
   border-bottom: 1.5px solid var(--border);
   margin-bottom: 2em;
+  position: relative;
 }
 
 h1 {
@@ -291,6 +292,63 @@ button:focus {
 .forecast-temp {
   font-size: 1.1em;
   color: var(--text);
+}
+
+.temp-toggle {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.3em;
+  margin-bottom: 0.5em;
+}
+.temp-toggle-header {
+  position: absolute;
+  top: 2.2em;
+  right: 2em;
+  display: flex;
+  gap: 0.1em;
+  z-index: 10;
+  background: #f4f7fa;
+  border-radius: 999px;
+  padding: 0.15em 0.4em;
+  box-shadow: 0 1px 4px rgba(79,140,255,0.06);
+}
+.toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--primary-dark);
+  border-radius: 999px;
+  padding: 0.1em 0.7em;
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s cubic-bezier(.4,0,.2,1), color 0.25s cubic-bezier(.4,0,.2,1), box-shadow 0.25s, transform 0.18s;
+  min-width: 36px;
+  min-height: 28px;
+  line-height: 1.2;
+  box-shadow: none;
+  outline: none;
+  position: relative;
+}
+.toggle-btn.active, .toggle-btn:focus {
+  background: var(--primary-dark);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(79,140,255,0.13);
+  border: none;
+  transform: scale(1.08);
+  z-index: 1;
+}
+.toggle-btn:not(.active):hover {
+  background: #e3f0ff;
+  color: var(--primary-dark);
+  transform: scale(1.04);
+}
+
+.toggle-label {
+  font-size: 0.93em;
+  color: var(--text-muted);
+  margin-right: 0.4em;
+  align-self: center;
+  font-weight: 500;
 }
 
 @media (max-width: 600px) {
