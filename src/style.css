@@ -489,3 +489,11 @@ body.dark {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+body.dark .spinner-overlay {
+  background: rgba(24,28,36,0.85);
+  backdrop-filter: blur(4px);
+}
+body.dark .spinner {
+  border: 5px solid #2c3442;
+  border-top: 5px solid #7aaaff;
+}
