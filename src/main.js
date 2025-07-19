@@ -9,55 +9,72 @@ const WEATHER_DESC = {
 
 let tempUnit = 'C';
 
+const toggleC = document.getElementById('toggle-c');
+const toggleF = document.getElementById('toggle-f');
+const themeToggle = document.getElementById('theme-toggle');
+const weatherForm = document.getElementById('weather-form');
+
 function setTempUnit(unit) {
   tempUnit = unit;
-  document.getElementById('toggle-c').classList.toggle('active', unit === 'C');
-  document.getElementById('toggle-f').classList.toggle('active', unit === 'F');
-  document.getElementById('toggle-c').setAttribute('aria-pressed', unit === 'C');
-  document.getElementById('toggle-f').setAttribute('aria-pressed', unit === 'F');
+  toggleC.classList.toggle('active', unit === 'C');
+  toggleF.classList.toggle('active', unit === 'F');
+  toggleC.setAttribute('aria-pressed', unit === 'C');
+  toggleF.setAttribute('aria-pressed', unit === 'F');
   if (window._lastWeather && window._lastCity) updateWeatherCard(window._lastWeather, window._lastCity);
   if (window._lastForecast) updateForecast(window._lastForecast);
 }
 
-document.getElementById('toggle-c').addEventListener('keydown', e => {
+
+toggleC.addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' ') {
     setTempUnit('C');
     e.preventDefault();
   }
 });
-document.getElementById('toggle-f').addEventListener('keydown', e => {
+toggleF.addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' ') {
     setTempUnit('F');
     e.preventDefault();
   }
 });
-document.getElementById('theme-toggle').addEventListener('keydown', e => {
+
+toggleF.addEventListener('click', e => {
+  setTempUnit('F');
+  e.preventDefault();
+});
+
+toggleC.addEventListener('click', e => {
+  setTempUnit('C');
+  e.preventDefault();
+});
+
+
+themeToggle.addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' ') {
-    document.getElementById('theme-toggle').click();
+    themeToggle.click();
     e.preventDefault();
   }
 });
 
 function setTheme(dark) {
   document.body.classList.toggle('dark', dark);
-  document.getElementById('theme-toggle').textContent = dark ? '☀️' : '🌙';
+  themeToggle.textContent = dark ? '☀️' : '🌙';
   localStorage.setItem('theme', dark ? 'dark' : 'light');
 }
 
-document.getElementById('theme-toggle').addEventListener('click', () => {
+themeToggle.addEventListener('click', () => {
   const isDark = document.body.classList.toggle('dark');
-  document.getElementById('theme-toggle').textContent = isDark ? '☀️' : '🌙';
+  themeToggle.textContent = isDark ? '☀️' : '🌙';
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
 });
 
-function toF(c) { return c * 9/5 + 32; }
+function toF(c) { return c * 9 / 5 + 32; }
 
 function showSpinner(show) {
   const overlay = document.getElementById('spinner-overlay');
   const weatherSection = document.getElementById('current-weather');
   const forecastSection = document.getElementById('forecast');
   if (show) {
-    // Get the top of the weather section relative to the parent
     const parentRect = overlay.parentElement.getBoundingClientRect();
     const weatherRect = weatherSection.getBoundingClientRect();
     const forecastRect = forecastSection.getBoundingClientRect();
@@ -69,7 +86,7 @@ function showSpinner(show) {
   } else {
     overlay.style.display = 'none';
   }
-  document.getElementById('weather-form').querySelectorAll('input,button').forEach(el => el.disabled = show);
+  weatherForm.querySelectorAll('input,button').forEach(el => el.disabled = show);
 }
 
 function showWeatherSpinner(show) {
@@ -79,7 +96,6 @@ function showWeatherSpinner(show) {
 function showForecastSpinner(show) {
   const overlay = document.getElementById('spinner-overlay-forecast');
   overlay.style.display = show ? 'flex' : 'none';
-  // Ensure overlay is always on top, even if forecast-cards is empty
   overlay.style.zIndex = 100;
 }
 
@@ -169,9 +185,9 @@ window.addEventListener('DOMContentLoaded', () => {
   searchAndUpdate('Batumi');
 });
 
-document.getElementById('weather-form').addEventListener('submit', async (e) => {
+weatherForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const city = document.getElementById('city-input').value.trim();
+  const city = weatherForm.querySelector('#city-input').value.trim();
   if (!city) return;
   searchAndUpdate(city);
 });
@@ -194,7 +210,7 @@ async function searchAndUpdate(city) {
       showForecastSpinner(false);
       showWeatherError('City not found');
     } finally {
-      document.getElementById('weather-form').querySelectorAll('input,button').forEach(el => el.disabled = false);
+      weatherForm.querySelectorAll('input,button').forEach(el => el.disabled = false);
     }
   }, 0);
 }

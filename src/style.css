@@ -269,6 +269,23 @@ body.dark .weather-info .temp {
     padding-bottom: 0.5em;
   }
 }
+
+@media (max-width: 480px) {
+  .forecast-cards {
+    grid-template-columns: 1fr;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+  }
+  .forecast-card {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: 80%;
+    max-width: 150px;
+  }
+}
+
 .forecast-card {
   min-width: 90px;
   min-height: 120px;
@@ -431,6 +448,20 @@ body.dark {
 }
 body.dark {
   background: linear-gradient(120deg, #232a36 0%, #181c24 100%);
+}
+
+@media (max-width: 768px) {
+  main {
+    max-width: 95vw;
+    padding: 0 1em;
+  }
+  header {
+    padding: 2em 0.5em 1em 0.5em;
+  }
+  .weather-card {
+    max-width: 95vw;
+    margin: 0 auto 2em auto;
+  }
 }
 
 @media (max-width: 600px) {
